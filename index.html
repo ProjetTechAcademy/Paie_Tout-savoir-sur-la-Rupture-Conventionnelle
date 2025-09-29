@@ -65,6 +65,15 @@
         .timeline-dot {
             background-color: #81B29A;
         }
+        .legal-note {
+            background-color: #fff5f5;
+            border-left: 4px solid #ef4444;
+            color: #b91c1c;
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -96,38 +105,38 @@
         <section id="procedure" class="mb-16 scroll-mt-20">
             <div class="card p-6 md:p-8">
                 <h2 class="text-3xl font-bold text-gray-800 mb-2">La Procédure Étape par Étape</h2>
-                <p class="text-gray-600 mb-8">La rupture conventionnelle suit un calendrier précis de délais incompressibles. Voici les étapes clés, de l'entretien à la fin effective du contrat.</p>
+                <p class="text-gray-600 mb-8">La rupture conventionnelle (régie par les articles <a href="#" class="text-indigo-600 font-medium">L.1237-11 à L.1237-16</a> du Code du travail) suit un calendrier précis de délais incompressibles. Voici les étapes clés.</p>
                 
                 <div class="space-y-8">
                     <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 1 : Le ou les entretiens</h3>
-                        <p class="text-gray-600">L'employeur et le salarié conviennent des conditions de la rupture (date de départ, montant de l'indemnité). Au moins un entretien est obligatoire. Les deux parties peuvent se faire assister.</p>
+                        <p class="text-gray-600">L'employeur et le salarié conviennent des conditions de la rupture. Au moins un entretien est obligatoire.</p>
                     </div>
                     <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 2 : Signature de la convention</h3>
-                        <p class="text-gray-600">Les conditions sont formalisées dans le formulaire Cerfa n°14598*01. La signature de ce document déclenche le début du délai de rétractation.</p>
+                        <p class="text-gray-600">Les conditions sont formalisées dans le formulaire Cerfa. La signature déclenche le délai de rétractation.</p>
                     </div>
                     <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 3 : Délai de rétractation (15 jours calendaires)</h3>
-                        <p class="text-gray-600">À compter du lendemain de la signature, chaque partie dispose de 15 jours calendaires pour changer d'avis et annuler la procédure par lettre recommandée.</p>
+                        <p class="text-gray-600">Selon l'article <a href="#" class="text-indigo-600 font-medium">L.1237-13</a> du Code du travail, chaque partie dispose de 15 jours calendaires pour annuler la procédure.</p>
                     </div>
                     <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 4 : Demande d'homologation à la DREETS</h3>
-                        <p class="text-gray-600">Au plus tôt le lendemain de la fin du délai de rétractation, la convention est envoyée à l'administration (DREETS) pour validation via le service TéléRC.</p>
+                        <p class="text-gray-600">La convention est envoyée à l'administration pour validation via le service TéléRC.</p>
                     </div>
                     <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 5 : Délai d'instruction (15 jours ouvrables)</h3>
-                        <p class="text-gray-600">La DREETS a 15 jours ouvrables pour vérifier la validité de la convention. L'absence de réponse vaut acceptation (homologation tacite).</p>
+                        <p class="text-gray-600">La DREETS vérifie la validité. L'absence de réponse vaut acceptation (homologation tacite).</p>
                     </div>
                      <div class="relative timeline-step pl-8">
                         <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
                         <h3 class="font-bold text-lg text-gray-800">Étape 6 : Fin du contrat de travail</h3>
-                        <p class="text-gray-600">La rupture du contrat peut intervenir au plus tôt le lendemain de la fin du délai d'instruction. L'employeur remet alors les documents de fin de contrat.</p>
+                        <p class="text-gray-600">La rupture peut intervenir au plus tôt le lendemain de la fin du délai d'instruction.</p>
                     </div>
                 </div>
             </div>
@@ -135,56 +144,90 @@
 
         <section id="simulateurs" class="mb-16 scroll-mt-20">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Simulateurs Pratiques</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4">🗓️ Calculateur de Délais</h3>
-                    <p class="text-gray-600 mb-4">Entrez la date de signature de la convention pour estimer les dates clés de votre procédure.</p>
-                    <div>
-                        <label for="signatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
-                        <input type="date" id="signatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                    </div>
-                    <ul class="mt-6 space-y-3">
-                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                            <span class="font-medium text-gray-700">Fin du délai de rétractation :</span>
-                            <span id="retractationEnd" class="font-bold text-indigo-600">-</span>
-                        </li>
-                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                            <span class="font-medium text-gray-700">Envoi possible à la DREETS le :</span>
-                            <span id="envoiDreets" class="font-bold text-indigo-600">-</span>
-                        </li>
-                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                            <span class="font-medium text-gray-700">Fin du délai d'instruction vers le :</span>
-                            <span id="instructionEnd" class="font-bold text-indigo-600">-</span>
-                        </li>
-                        <li class="flex justify-between items-center p-3 bg-green-100 rounded-md">
-                            <span class="font-medium text-green-800">Rupture possible à partir du :</span>
-                            <span id="rupturePossible" class="font-bold text-green-800">-</span>
-                        </li>
-                    </ul>
-                     <p class="text-xs text-gray-500 mt-4">Note : Le calcul des jours ouvrables n'inclut pas les jours fériés et peut donc varier légèrement.</p>
+            <div class="card p-6 md:p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">🗓️ Calculateur de Délais</h3>
+                <p class="text-gray-600 mb-4">Entrez la date de signature de la convention pour estimer les dates clés de votre procédure.</p>
+                <div>
+                    <label for="signatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
+                    <input type="date" id="signatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
                 </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4">💰 Calculateur d'Indemnité Minimale</h3>
-                    <p class="text-gray-600 mb-4">Estimez le montant minimum légal de votre indemnité de rupture conventionnelle.</p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                           <label for="ancienneteAn" class="block text-sm font-medium text-gray-700">Ancienneté (ans)</label>
-                           <input type="number" id="ancienneteAn" value="5" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                        </div>
-                        <div>
-                           <label for="ancienneteMois" class="block text-sm font-medium text-gray-700">Ancienneté (mois)</label>
-                           <input type="number" id="ancienneteMois" value="7" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                        </div>
+                <ul class="mt-6 space-y-3">
+                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                        <span class="font-medium text-gray-700">Fin du délai de rétractation :</span>
+                        <span id="retractationEnd" class="font-bold text-indigo-600">-</span>
+                    </li>
+                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                        <span class="font-medium text-gray-700">Envoi possible à la DREETS le :</span>
+                        <span id="envoiDreets" class="font-bold text-indigo-600">-</span>
+                    </li>
+                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                        <span class="font-medium text-gray-700">Fin du délai d'instruction vers le :</span>
+                        <span id="instructionEnd" class="font-bold text-indigo-600">-</span>
+                    </li>
+                    <li class="flex justify-between items-center p-3 bg-green-100 rounded-md">
+                        <span class="font-medium text-green-800">Rupture effective possible à partir du :</span>
+                        <span id="rupturePossible" class="font-bold text-green-800">-</span>
+                    </li>
+                </ul>
+                <p class="text-xs text-gray-500 mt-4">Note : Le calcul des jours ouvrables n'inclut pas les jours fériés et peut donc varier légèrement.</p>
+            </div>
+            
+            <div class="card p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">💰 Simulateur Détaillé d'Indemnité</h3>
+                <p class="text-gray-600 mb-4">Renseignez les informations ci-dessous pour obtenir une estimation précise de l'indemnité minimale légale.</p>
+                
+                <div class="legal-note">
+                    <p><strong><em>Quelle période de rémunération prendre en compte ? Selon les textes en vigueur (notamment l'article L.1234-9 du Code du travail, applicable par renvoi), le salaire de référence est calculé sur la base des rémunérations brutes perçues par le salarié AVANT la date de signature de la convention. Le salaire du mois de la rupture effective n'est donc pas inclus dans la base de calcul.</em></strong></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="detailedSignatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
+                        <input type="date" id="detailedSignatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
                     </div>
-                     <div class="mt-4">
-                           <label for="salaireRef" class="block text-sm font-medium text-gray-700">Salaire de référence (€)</label>
-                           <input type="number" id="salaireRef" value="2125" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                           <p class="text-xs text-gray-500 mt-1">Moyenne la plus favorable des 3 ou 12 derniers mois.</p>
+                    <div>
+                        <label for="primes" class="block text-sm font-medium text-gray-700">Primes annuelles/exceptionnelles brutes (sur 12 derniers mois)</label>
+                        <input type="number" id="primes" placeholder="Ex: 1500" class="mt-1 block w-full rounded-md shadow-sm p-2">
                     </div>
-                    <div class="mt-6 text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                        <p class="text-sm font-medium text-green-800">Montant minimum de l'indemnité :</p>
-                        <p id="indemniteResult" class="text-3xl font-bold text-green-700 mt-1">2 966,15 €</p>
+                </div>
+
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Saisie des 12 derniers salaires bruts</h4>
+                    <div id="salaires-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <!-- Les champs de salaires seront générés ici par le script -->
                     </div>
+                </div>
+
+                <div class="legal-note">
+                    <p><strong><em>Comment calculer l'ancienneté ? L'ancienneté du salarié s'apprécie à la date de rupture effective du contrat de travail (c'est-à-dire à la fin de toute la procédure), et non à la date de signature de la convention. C'est ce que précise la circulaire DGT n° 2009-04.</em></strong></p>
+                    <p class="mt-2 text-sm"><strong>Exemple concret :</strong> Un salarié signe sa convention le 10 janvier. Après tous les délais, sa date de rupture effective est fixée au 1er mars. C'est son ancienneté au 1er mars qui sera utilisée pour le calcul de l'indemnité.</p>
+                </div>
+
+                 <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div>
+                       <label for="ancienneteAn" class="block text-sm font-medium text-gray-700">Ancienneté (ans) à la date de rupture</label>
+                       <input type="number" id="ancienneteAn" value="5" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                    </div>
+                    <div>
+                       <label for="ancienneteMois" class="block text-sm font-medium text-gray-700">Ancienneté (mois) à la date de rupture</label>
+                       <input type="number" id="ancienneteMois" value="7" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                    </div>
+                </div>
+                
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <p class="text-sm font-medium text-gray-600">Moyenne / 12 mois : <span id="avg12" class="font-bold">-</span></p>
+                         <p class="text-sm font-medium text-gray-600">Moyenne / 3 mois : <span id="avg3" class="font-bold">-</span></p>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="text-sm font-medium text-green-800">Salaire de référence retenu :</p>
+                        <p id="salaireRefResult" class="text-2xl font-bold text-green-700">-</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <p class="text-lg font-medium text-blue-800">Montant minimum de l'indemnité :</p>
+                    <p id="indemniteResult" class="text-4xl font-bold text-blue-700 mt-1">-</p>
                 </div>
             </div>
         </section>
@@ -248,9 +291,11 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const signatureDateInput = document.getElementById('signatureDate');
+        const detailedSignatureDateInput = document.getElementById('detailedSignatureDate');
+        const primesInput = document.getElementById('primes');
+        const salairesContainer = document.getElementById('salaires-container');
         const ancienneteAnInput = document.getElementById('ancienneteAn');
         const ancienneteMoisInput = document.getElementById('ancienneteMois');
-        const salaireRefInput = document.getElementById('salaireRef');
 
         function formatDate(date) {
             if (!date) return '-';
@@ -267,33 +312,32 @@
                 return;
             };
 
-            startDate.setUTCHours(0,0,0,0);
+            const utcStartDate = new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()));
 
-            let retractationEnd = new Date(startDate.getTime());
-            retractationEnd.setDate(retractationEnd.getDate() + 16);
+            let retractationEnd = new Date(utcStartDate);
+            retractationEnd.setUTCDate(retractationEnd.getUTCDate() + 15);
             
-            let current = new Date(retractationEnd);
-            if (current.getDay() === 6) { // Samedi
-                current.setDate(current.getDate() + 2);
-            } else if (current.getDay() === 0) { // Dimanche
-                current.setDate(current.getDate() + 1);
+            if (retractationEnd.getUTCDay() === 6) { 
+                retractationEnd.setUTCDate(retractationEnd.getUTCDate() + 2);
+            } else if (retractationEnd.getUTCDay() === 0) {
+                retractationEnd.setUTCDate(retractationEnd.getUTCDate() + 1);
             }
-            retractationEnd = current;
             
-            let envoiDreets = new Date(retractationEnd.getTime());
+            let envoiDreets = new Date(retractationEnd);
+            envoiDreets.setUTCDate(envoiDreets.getUTCDate() + 1);
             
-            let instructionEnd = new Date(envoiDreets.getTime());
+            let instructionEnd = new Date(envoiDreets);
             let joursOuvrables = 0;
             while (joursOuvrables < 15) {
-                instructionEnd.setDate(instructionEnd.getDate() + 1);
-                const day = instructionEnd.getDay();
-                if (day !== 0 && day !== 6) { // Exclut dimanche et samedi
+                instructionEnd.setUTCDate(instructionEnd.getUTCDate() + 1);
+                const day = instructionEnd.getUTCDay();
+                if (day !== 0 && day !== 6) {
                     joursOuvrables++;
                 }
             }
             
-            let rupturePossible = new Date(instructionEnd.getTime());
-            rupturePossible.setDate(rupturePossible.getDate() + 1);
+            let rupturePossible = new Date(instructionEnd);
+            rupturePossible.setUTCDate(rupturePossible.getUTCDate() + 1);
 
             document.getElementById('retractationEnd').textContent = formatDate(retractationEnd);
             document.getElementById('envoiDreets').textContent = formatDate(envoiDreets);
@@ -301,43 +345,99 @@
             document.getElementById('rupturePossible').textContent = formatDate(rupturePossible);
         }
 
-        function calculateIndemnity() {
-            const ans = parseFloat(ancienneteAnInput.value) || 0;
-            const mois = parseFloat(ancienneteMoisInput.value) || 0;
-            const salaire = parseFloat(salaireRefInput.value) || 0;
-            
-            if (salaire === 0) {
-                document.getElementById('indemniteResult').textContent = '0,00 €';
+        function generateSalaireInputs() {
+            const sigDate = detailedSignatureDateInput.valueAsDate;
+            if (!sigDate) {
+                salairesContainer.innerHTML = '<p class="text-sm text-gray-500 col-span-full">Veuillez sélectionner une date de signature.</p>';
                 return;
             }
 
-            const totalAnciennete = ans + (mois / 12);
-            let indemnite = 0;
+            salairesContainer.innerHTML = '';
+            const monthFormatter = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
             
-            if (totalAnciennete > 0) {
-                if (totalAnciennete <= 10) {
-                    indemnite = (salaire / 4) * totalAnciennete;
+            for (let i = 1; i <= 12; i++) {
+                let date = new Date(sigDate.getFullYear(), sigDate.getMonth() - i, 1);
+                const monthName = monthFormatter.format(date);
+                
+                const div = document.createElement('div');
+                const label = document.createElement('label');
+                label.className = 'block text-xs font-medium text-gray-600';
+                label.textContent = `Salaire ${monthName}`;
+                
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'salaire-input mt-1 block w-full rounded-md shadow-sm p-2 text-sm';
+                input.placeholder = 'Brut (€)';
+                input.dataset.monthIndex = i;
+                input.addEventListener('input', calculateDetailedIndemnity);
+                
+                div.appendChild(label);
+                div.appendChild(input);
+                salairesContainer.appendChild(div);
+            }
+        }
+        
+        function calculateDetailedIndemnity() {
+            const salaireInputs = Array.from(document.querySelectorAll('.salaire-input'));
+            const salaires = salaireInputs.map(input => parseFloat(input.value) || 0);
+            
+            const primes = parseFloat(primesInput.value) || 0;
+            const primeMensuelle = primes / 12;
+
+            const salairesAvecPrimes = salaires.map(s => s + primeMensuelle);
+
+            const sum12 = salairesAvecPrimes.reduce((a, b) => a + b, 0);
+            const avg12 = sum12 > 0 ? sum12 / 12 : 0;
+
+            const sum3 = salairesAvecPrimes.slice(0, 3).reduce((a, b) => a + b, 0);
+            const avg3 = sum3 > 0 ? sum3 / 3 : 0;
+
+            const salaireRef = Math.max(avg12, avg3);
+
+            document.getElementById('avg12').textContent = isNaN(avg12) ? '-' : formatCurrency(avg12);
+            document.getElementById('avg3').textContent = isNaN(avg3) ? '-' : formatCurrency(avg3);
+            document.getElementById('salaireRefResult').textContent = isNaN(salaireRef) || salaireRef === 0 ? '-' : formatCurrency(salaireRef);
+
+            const ans = parseFloat(ancienneteAnInput.value) || 0;
+            const mois = parseFloat(ancienneteMoisInput.value) || 0;
+            const totalAnciennete = ans + (mois / 12);
+            
+            let indemnite = 0;
+            if (salaireRef > 0 && totalAnciennete > 0) {
+                 if (totalAnciennete <= 10) {
+                    indemnite = (salaireRef / 4) * totalAnciennete;
                 } else {
-                    const part1 = (salaire / 4) * 10;
-                    const part2 = (salaire / 3) * (totalAnciennete - 10);
+                    const part1 = (salaireRef / 4) * 10;
+                    const part2 = (salaireRef / 3) * (totalAnciennete - 10);
                     indemnite = part1 + part2;
                 }
             }
-
-            document.getElementById('indemniteResult').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(indemnite);
+            
+            document.getElementById('indemniteResult').textContent = formatCurrency(indemnite);
+        }
+        
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
         }
 
         signatureDateInput.addEventListener('change', calculateTimeline);
-        ancienneteAnInput.addEventListener('input', calculateIndemnity);
-        ancienneteMoisInput.addEventListener('input', calculateIndemnity);
-        salaireRefInput.addEventListener('input', calculateIndemnity);
+        detailedSignatureDateInput.addEventListener('change', () => {
+            generateSalaireInputs();
+            calculateDetailedIndemnity();
+        });
+        
+        primesInput.addEventListener('input', calculateDetailedIndemnity);
+        ancienneteAnInput.addEventListener('input', calculateDetailedIndemnity);
+        ancienneteMoisInput.addEventListener('input', calculateDetailedIndemnity);
 
         const today = new Date();
         const todayString = today.toISOString().split('T')[0];
         signatureDateInput.value = todayString;
+        detailedSignatureDateInput.value = todayString;
         
         calculateTimeline();
-        calculateIndemnity();
+        generateSalaireInputs();
+        calculateDetailedIndemnity();
         
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
@@ -357,3 +457,4 @@
     </script>
 </body>
 </html>
+
