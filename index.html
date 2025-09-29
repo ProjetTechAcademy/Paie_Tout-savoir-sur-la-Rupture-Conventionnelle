@@ -145,73 +145,69 @@
         <section id="simulateurs" class="mb-16 scroll-mt-20">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Simulateurs Pratiques</h2>
             <div class="card p-6 md:p-8 mb-8">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">🗓️ Calculateur de Délais</h3>
-                <p class="text-gray-600 mb-4">Entrez la date de signature de la convention pour estimer les dates clés de votre procédure.</p>
-                <div>
-                    <label for="signatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
-                    <input type="date" id="signatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">🗓️ Calculateur de Délais & Ancienneté</h3>
+                <p class="text-gray-600 mb-4">Entrez les dates pour estimer les délais clés et calculer l'ancienneté automatiquement.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="signatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
+                        <input type="date" id="signatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                    </div>
+                    <div>
+                         <label for="dateEntree" class="block text-sm font-medium text-gray-700">Date d'entrée du salarié</label>
+                        <input type="date" id="dateEntree" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                    </div>
                 </div>
-                <ul class="mt-6 space-y-3">
-                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                        <span class="font-medium text-gray-700">Fin du délai de rétractation :</span>
-                        <span id="retractationEnd" class="font-bold text-indigo-600">-</span>
-                    </li>
-                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                        <span class="font-medium text-gray-700">Envoi possible à la DREETS le :</span>
-                        <span id="envoiDreets" class="font-bold text-indigo-600">-</span>
-                    </li>
-                    <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                        <span class="font-medium text-gray-700">Fin du délai d'instruction vers le :</span>
-                        <span id="instructionEnd" class="font-bold text-indigo-600">-</span>
-                    </li>
-                    <li class="flex justify-between items-center p-3 bg-green-100 rounded-md">
-                        <span class="font-medium text-green-800">Rupture effective possible à partir du :</span>
-                        <span id="rupturePossible" class="font-bold text-green-800">-</span>
-                    </li>
-                </ul>
-                <p class="text-xs text-gray-500 mt-4">Note : Le calcul des jours ouvrables n'inclut pas les jours fériés et peut donc varier légèrement.</p>
+                 <div class="mt-4">
+                    <label for="dateDepartSouhaitee" class="block text-sm font-medium text-gray-700">Date de départ souhaitée (si > date légale)</label>
+                    <input type="date" id="dateDepartSouhaitee" class="mt-1 block w-full md:w-1/2 rounded-md shadow-sm p-2">
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-medium text-gray-700">Fin du délai de rétractation :</span>
+                            <span id="retractationEnd" class="font-bold text-indigo-600">-</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-medium text-gray-700">Fin du délai d'instruction :</span>
+                            <span id="instructionEnd" class="font-bold text-indigo-600">-</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-green-100 rounded-md">
+                            <span class="font-medium text-green-800">Date de sortie légale au plus tôt :</span>
+                            <span id="rupturePossible" class="font-bold text-green-800">-</span>
+                        </li>
+                    </ul>
+                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-200 text-center flex flex-col justify-center">
+                        <p class="text-lg font-medium text-blue-800">Ancienneté calculée :</p>
+                        <p id="ancienneteResult" class="text-3xl font-bold text-blue-700 mt-1">-</p>
+                    </div>
+                </div>
             </div>
             
             <div class="card p-6 md:p-8">
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">💰 Simulateur Détaillé d'Indemnité</h3>
-                <p class="text-gray-600 mb-4">Renseignez les informations ci-dessous pour obtenir une estimation précise de l'indemnité minimale légale.</p>
+                <p class="text-gray-600 mb-4">Saisissez les salaires pour estimer l'indemnité minimale légale basée sur l'ancienneté calculée ci-dessus.</p>
                 
                 <div class="legal-note">
                     <p><strong><em>Quelle période de rémunération prendre en compte ? Selon les textes en vigueur (notamment l'article L.1234-9 du Code du travail, applicable par renvoi), le salaire de référence est calculé sur la base des rémunérations brutes perçues par le salarié AVANT la date de signature de la convention. Le salaire du mois de la rupture effective n'est donc pas inclus dans la base de calcul.</em></strong></p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="detailedSignatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
-                        <input type="date" id="detailedSignatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                    </div>
-                    <div>
-                        <label for="primes" class="block text-sm font-medium text-gray-700">Primes annuelles/exceptionnelles brutes (sur 12 derniers mois)</label>
+                     <div>
+                        <label for="primes" class="block text-sm font-medium text-gray-700">Primes annuelles/exceptionnelles brutes (sur les 12 mois avant signature)</label>
                         <input type="number" id="primes" placeholder="Ex: 1500" class="mt-1 block w-full rounded-md shadow-sm p-2">
                     </div>
                 </div>
 
                 <div class="mt-6">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Saisie des 12 derniers salaires bruts</h4>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Saisie des 12 derniers salaires bruts (avant signature)</h4>
                     <div id="salaires-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <!-- Les champs de salaires seront générés ici par le script -->
+                        <p class="text-sm text-gray-500 col-span-full">Veuillez d'abord sélectionner une date de signature ci-dessus.</p>
                     </div>
                 </div>
 
                 <div class="legal-note">
                     <p><strong><em>Comment calculer l'ancienneté ? L'ancienneté du salarié s'apprécie à la date de rupture effective du contrat de travail (c'est-à-dire à la fin de toute la procédure), et non à la date de signature de la convention. C'est ce que précise la circulaire DGT n° 2009-04.</em></strong></p>
                     <p class="mt-2 text-sm"><strong>Exemple concret :</strong> Un salarié signe sa convention le 10 janvier. Après tous les délais, sa date de rupture effective est fixée au 1er mars. C'est son ancienneté au 1er mars qui sera utilisée pour le calcul de l'indemnité.</p>
-                </div>
-
-                 <div class="grid grid-cols-2 gap-4 mt-6">
-                    <div>
-                       <label for="ancienneteAn" class="block text-sm font-medium text-gray-700">Ancienneté (ans) à la date de rupture</label>
-                       <input type="number" id="ancienneteAn" value="5" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                    </div>
-                    <div>
-                       <label for="ancienneteMois" class="block text-sm font-medium text-gray-700">Ancienneté (mois) à la date de rupture</label>
-                       <input type="number" id="ancienneteMois" value="7" class="mt-1 block w-full rounded-md shadow-sm p-2">
-                    </div>
                 </div>
                 
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -283,6 +279,127 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-8 border-t pt-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Exemple concret & Bulletin de paie simplifié (Cas 1)</h4>
+                    <div class="text-sm p-4 bg-gray-50 rounded-lg">
+                        <p><strong>Hypothèses :</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Indemnité légale ou conventionnelle : <strong>10 000 €</strong></li>
+                            <li>Indemnité de rupture versée : <strong>30 000 €</strong></li>
+                            <li>Salaire brut annuel (N-1) : <strong>45 000 €</strong></li>
+                            <li>Plafond Annuel de la Sécurité Sociale (PASS) en 2025 : <strong>47 100 €</strong></li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 border rounded-lg">
+                            <p class="font-bold">1. Limite d'exonération fiscale</p>
+                            <p class="text-xs">On retient le montant le plus élevé :</p>
+                            <ul class="list-decimal list-inside text-xs ml-4 mt-1">
+                                <li>Indemnité légale: 10 000 €</li>
+                                <li>50% de l'indemnité versée: 15 000 €</li>
+                                <li>2x Salaire N-1: 90 000 € (plafonné à 6 PASS)</li>
+                            </ul>
+                            <p class="mt-2 p-2 bg-green-100 text-green-800 rounded text-sm font-bold">Exonération IR = 15 000 €</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                             <p class="font-bold">2. Limite d'exonération sociale</p>
+                            <p class="text-xs">Limitée à 2 PASS (94 200 €). L'indemnité versée (30 000 €) est inférieure.</p>
+                            <p class="mt-2 p-2 bg-green-100 text-green-800 rounded text-sm font-bold">Exonération cotisations = 30 000 €</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <p class="font-bold">3. Limite d'exonération CSG/CRDS</p>
+                            <p class="text-xs">On retient le montant le plus bas entre la part exonérée de cotisations (30 000 €) et l'indemnité légale (10 000 €).</p>
+                            <p class="mt-2 p-2 bg-green-100 text-green-800 rounded text-sm font-bold">Exonération CSG/CRDS = 10 000 €</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 overflow-x-auto">
+                        <p class="font-semibold mb-2">Simulation sur le bulletin de paie du solde de tout compte (Cas 1):</p>
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left py-2 px-3 text-sm font-medium">Libellé</th>
+                                    <th class="text-right py-2 px-3 text-sm font-medium">Base</th>
+                                    <th class="text-right py-2 px-3 text-sm font-medium">Montant Brut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-2 px-3 text-sm">Salaire du mois (ex: 15 jours)</td>
+                                    <td class="text-right py-2 px-3 text-sm">1 800,00 €</td>
+                                    <td class="text-right py-2 px-3 text-sm">1 800,00 €</td>
+                                </tr>
+                                <tr class="border-b bg-blue-50">
+                                    <td class="py-2 px-3 text-sm font-medium">Indemnité de rupture conventionnelle</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                    <td class="text-right py-2 px-3 text-sm font-medium">30 000,00 €</td>
+                                </tr>
+                                 <tr class="border-b">
+                                    <td class="py-2 px-3 pl-8 text-xs italic">...dont part totalement exonérée</td>
+                                    <td class="text-right py-2 px-3 text-xs italic"></td>
+                                    <td class="text-right py-2 px-3 text-xs italic">(10 000,00 €)</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-2 px-3 text-sm text-red-600">Partie de l'indemnité soumise à CSG/CRDS (9,7%)</td>
+                                    <td class="text-right py-2 px-3 text-sm text-red-600">20 000,00 €</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-2 px-3 text-sm text-red-600">Partie de l'indemnité soumise à l'impôt</td>
+                                    <td class="text-right py-2 px-3 text-sm text-red-600">15 000,00 €</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                </tr>
+                                <tr class="bg-gray-100 font-bold">
+                                    <td class="py-2 px-3 text-sm">Total Brut Soumis à Cotisations Sociales</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                    <td class="text-right py-2 px-3 text-sm">1 800,00 €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                         <p class="text-xs text-gray-500 mt-2">Ce bulletin est une simplification. Il ne montre pas le détail des cotisations salariales, patronales ni le prélèvement à la source.</p>
+                    </div>
+                </div>
+
+                 <div class="mt-8 border-t pt-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Exemple concret & Bulletin de paie simplifié (Cas 2)</h4>
+                    <div class="text-sm p-4 bg-gray-50 rounded-lg">
+                        <p><strong>Hypothèses :</strong></p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Salarié en droit de bénéficier d'une pension de retraite.</li>
+                            <li>Indemnité de rupture versée : <strong>25 000 €</strong></li>
+                        </ul>
+                        <p class="mt-2">Dans ce cas, le régime est beaucoup plus simple : l'intégralité de l'indemnité est traitée comme un salaire.</p>
+                    </div>
+                    <div class="mt-6 overflow-x-auto">
+                        <p class="font-semibold mb-2">Simulation sur le bulletin de paie du solde de tout compte (Cas 2):</p>
+                        <table class="min-w-full bg-white border">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left py-2 px-3 text-sm font-medium">Libellé</th>
+                                    <th class="text-right py-2 px-3 text-sm font-medium">Base</th>
+                                    <th class="text-right py-2 px-3 text-sm font-medium">Montant Brut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-2 px-3 text-sm">Salaire du mois (ex: 15 jours)</td>
+                                    <td class="text-right py-2 px-3 text-sm">1 800,00 €</td>
+                                    <td class="text-right py-2 px-3 text-sm">1 800,00 €</td>
+                                </tr>
+                                <tr class="border-b bg-red-50">
+                                    <td class="py-2 px-3 text-sm font-medium text-red-700">Indemnité de rupture (entièrement soumise)</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                    <td class="text-right py-2 px-3 text-sm font-medium text-red-700">25 000,00 €</td>
+                                </tr>
+                                <tr class="bg-gray-100 font-bold">
+                                    <td class="py-2 px-3 text-sm">Total Brut Soumis à Cotisations Sociales</td>
+                                    <td class="text-right py-2 px-3 text-sm"></td>
+                                    <td class="text-right py-2 px-3 text-sm">26 800,00 €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                         <p class="text-xs text-gray-500 mt-2">Ce bulletin montre que l'indemnité s'ajoute au salaire pour former la base de calcul des cotisations sociales et de l'impôt.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -291,28 +408,37 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const signatureDateInput = document.getElementById('signatureDate');
-        const detailedSignatureDateInput = document.getElementById('detailedSignatureDate');
+        const dateEntreeInput = document.getElementById('dateEntree');
+        const dateDepartSouhaiteeInput = document.getElementById('dateDepartSouhaitee');
+        
         const primesInput = document.getElementById('primes');
         const salairesContainer = document.getElementById('salaires-container');
-        const ancienneteAnInput = document.getElementById('ancienneteAn');
-        const ancienneteMoisInput = document.getElementById('ancienneteMois');
+
+        let ruptureLegaleDate = null;
+        let ancienneteGlobale = { years: 0, months: 0 };
+        
+        function format(date) {
+            if (!date) return null;
+            return date.toISOString().split('T')[0];
+        }
 
         function formatDate(date) {
             if (!date) return '-';
             return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
         
-        function calculateTimeline() {
-            const startDate = signatureDateInput.valueAsDate;
-            if (!startDate) {
+        function calculateTimelineAndAnciennete() {
+            const signatureDate = signatureDateInput.valueAsDate;
+            if (!signatureDate) {
                 document.getElementById('retractationEnd').textContent = '-';
-                document.getElementById('envoiDreets').textContent = '-';
                 document.getElementById('instructionEnd').textContent = '-';
                 document.getElementById('rupturePossible').textContent = '-';
+                ruptureLegaleDate = null;
+                updateAncienneteDisplay();
                 return;
             };
 
-            const utcStartDate = new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()));
+            const utcStartDate = new Date(Date.UTC(signatureDate.getFullYear(), signatureDate.getMonth(), signatureDate.getDate()));
 
             let retractationEnd = new Date(utcStartDate);
             retractationEnd.setUTCDate(retractationEnd.getUTCDate() + 15);
@@ -338,15 +464,48 @@
             
             let rupturePossible = new Date(instructionEnd);
             rupturePossible.setUTCDate(rupturePossible.getUTCDate() + 1);
+            ruptureLegaleDate = rupturePossible;
 
             document.getElementById('retractationEnd').textContent = formatDate(retractationEnd);
-            document.getElementById('envoiDreets').textContent = formatDate(envoiDreets);
             document.getElementById('instructionEnd').textContent = formatDate(instructionEnd);
             document.getElementById('rupturePossible').textContent = formatDate(rupturePossible);
+            
+            updateAncienneteDisplay();
+        }
+
+        function updateAncienneteDisplay(){
+            const dateEntree = dateEntreeInput.valueAsDate;
+            const dateDepartSouhaitee = dateDepartSouhaiteeInput.valueAsDate;
+
+            if(!dateEntree || !ruptureLegaleDate){
+                document.getElementById('ancienneteResult').textContent = '-';
+                return;
+            }
+
+            let dateEffectiveRupture = ruptureLegaleDate;
+            if(dateDepartSouhaitee && dateDepartSouhaitee > ruptureLegaleDate){
+                dateEffectiveRupture = dateDepartSouhaitee;
+            }
+            
+            let years = dateEffectiveRupture.getFullYear() - dateEntree.getFullYear();
+            let months = dateEffectiveRupture.getMonth() - dateEntree.getMonth();
+            let days = dateEffectiveRupture.getDate() - dateEntree.getDate();
+
+            if (days < 0) {
+                months--;
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            ancienneteGlobale = { years, months };
+            document.getElementById('ancienneteResult').textContent = `${years} an(s) et ${months} mois`;
+            calculateDetailedIndemnity();
         }
 
         function generateSalaireInputs() {
-            const sigDate = detailedSignatureDateInput.valueAsDate;
+            const sigDate = signatureDateInput.valueAsDate;
             if (!sigDate) {
                 salairesContainer.innerHTML = '<p class="text-sm text-gray-500 col-span-full">Veuillez sélectionner une date de signature.</p>';
                 return;
@@ -379,6 +538,8 @@
         
         function calculateDetailedIndemnity() {
             const salaireInputs = Array.from(document.querySelectorAll('.salaire-input'));
+            if(salaireInputs.length === 0) return;
+
             const salaires = salaireInputs.map(input => parseFloat(input.value) || 0);
             
             const primes = parseFloat(primesInput.value) || 0;
@@ -398,9 +559,8 @@
             document.getElementById('avg3').textContent = isNaN(avg3) ? '-' : formatCurrency(avg3);
             document.getElementById('salaireRefResult').textContent = isNaN(salaireRef) || salaireRef === 0 ? '-' : formatCurrency(salaireRef);
 
-            const ans = parseFloat(ancienneteAnInput.value) || 0;
-            const mois = parseFloat(ancienneteMoisInput.value) || 0;
-            const totalAnciennete = ans + (mois / 12);
+            const { years, months } = ancienneteGlobale;
+            const totalAnciennete = years + (months / 12);
             
             let indemnite = 0;
             if (salaireRef > 0 && totalAnciennete > 0) {
@@ -420,24 +580,25 @@
             return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
         }
 
-        signatureDateInput.addEventListener('change', calculateTimeline);
-        detailedSignatureDateInput.addEventListener('change', () => {
-            generateSalaireInputs();
-            calculateDetailedIndemnity();
+        signatureDateInput.addEventListener('change', () => {
+             calculateTimelineAndAnciennete();
+             generateSalaireInputs();
         });
+        dateEntreeInput.addEventListener('change', calculateTimelineAndAnciennete);
+        dateDepartSouhaiteeInput.addEventListener('change', calculateTimelineAndAnciennete);
         
         primesInput.addEventListener('input', calculateDetailedIndemnity);
-        ancienneteAnInput.addEventListener('input', calculateDetailedIndemnity);
-        ancienneteMoisInput.addEventListener('input', calculateDetailedIndemnity);
-
-        const today = new Date();
-        const todayString = today.toISOString().split('T')[0];
-        signatureDateInput.value = todayString;
-        detailedSignatureDateInput.value = todayString;
         
-        calculateTimeline();
+        const today = new Date();
+        const todayString = format(today);
+        signatureDateInput.value = todayString;
+
+        const fiveYearsAgo = new Date();
+        fiveYearsAgo.setFullYear(today.getFullYear() - 5);
+        dateEntreeInput.value = format(fiveYearsAgo);
+
+        calculateTimelineAndAnciennete();
         generateSalaireInputs();
-        calculateDetailedIndemnity();
         
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
