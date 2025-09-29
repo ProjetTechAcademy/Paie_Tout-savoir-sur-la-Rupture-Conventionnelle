@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur de Rupture Conventionnelle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Professional -->
+    <!-- Application Structure Plan: L'application est conçue autour de l'utilisateur qui cherche à comprendre et à planifier une rupture conventionnelle. La structure est donc orientée vers l'action et la clarification. Elle se divise en trois pôles : 1) Un guide visuel et chronologique de la procédure, 2) Des simulateurs interactifs pour les échéances et l'indemnité, et 3) Des fiches d'information claires sur les conditions et cas particuliers. Cette architecture transforme le contenu dense du diaporama en un parcours utilisateur logique, de la compréhension des règles (Qui ? Quand ?) à la planification concrète (Quelles dates ? Quel montant ?). -->
+    <!-- Visualization & Content Choices: 
+        1. Info: Procédure de rupture conventionnelle -> Goal: Organiser et clarifier la chronologie -> Viz: Calculateur de calendrier interactif (HTML/JS) -> Interaction: L'utilisateur entre une date de signature et l'outil calcule automatiquement les dates clés (fin de rétractation, envoi de la demande, fin d'instruction, date de rupture la plus proche). -> Justification: C'est l'élément le plus utile, car il traduit des règles complexes (jours calendaires vs. jours ouvrables) en un planning personnalisé et concret.
+        2. Info: Calcul de l'indemnité minimale -> Goal: Informer et simuler -> Viz: Calculateur d'indemnité (HTML/JS) avec affichage clair du résultat. -> Interaction: L'utilisateur saisit son ancienneté et son salaire de référence pour obtenir le montant minimum légal. -> Justification: Répond à la question financière principale de l'utilisateur de manière directe et personnalisée.
+        3. Info: Conditions d'éligibilité, cas d'interdiction, régime social -> Goal: Informer -> Viz: Cartes stylisées avec icônes Unicode (HTML/Tailwind). -> Interaction: Statique mais structuré pour une lecture rapide. -> Justification: Segmente l'information réglementaire en blocs digestes, ce qui est plus efficace qu'un long paragraphe.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3D405B;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #81B29A;
+            border-bottom-color: #81B29A;
+        }
+        .btn-primary {
+            background-color: #81B29A;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #6a947d;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.07);
+        }
+        input, select {
+            border-color: #E0E0E0;
+        }
+        input:focus, select:focus {
+            border-color: #81B29A;
+            box-shadow: 0 0 0 2px rgba(129, 178, 154, 0.3);
+            outline: none;
+        }
+        .timeline-step {
+            border-left: 3px solid #81B29A;
+        }
+        .timeline-step:last-child {
+            border-left: 3px solid transparent;
+        }
+        .timeline-dot {
+            background-color: #81B29A;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-gray-800">✍️ Guide Rupture Conventionnelle</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#procedure" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">La Procédure</a>
+                        <a href="#simulateurs" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">Simulateurs</a>
+                        <a href="#conditions" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">Conditions</a>
+                        <a href="#regime" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">Régime Social</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">Tout savoir sur la Rupture Conventionnelle</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Un outil interactif pour maîtriser la procédure, calculer vos délais et estimer votre indemnité de départ.</p>
+        </div>
+
+        <section id="procedure" class="mb-16 scroll-mt-20">
+            <div class="card p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">La Procédure Étape par Étape</h2>
+                <p class="text-gray-600 mb-8">La rupture conventionnelle suit un calendrier précis de délais incompressibles. Voici les étapes clés, de l'entretien à la fin effective du contrat.</p>
+                
+                <div class="space-y-8">
+                    <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 1 : Le ou les entretiens</h3>
+                        <p class="text-gray-600">L'employeur et le salarié conviennent des conditions de la rupture (date de départ, montant de l'indemnité). Au moins un entretien est obligatoire. Les deux parties peuvent se faire assister.</p>
+                    </div>
+                    <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 2 : Signature de la convention</h3>
+                        <p class="text-gray-600">Les conditions sont formalisées dans le formulaire Cerfa n°14598*01. La signature de ce document déclenche le début du délai de rétractation.</p>
+                    </div>
+                    <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 3 : Délai de rétractation (15 jours calendaires)</h3>
+                        <p class="text-gray-600">À compter du lendemain de la signature, chaque partie dispose de 15 jours calendaires pour changer d'avis et annuler la procédure par lettre recommandée.</p>
+                    </div>
+                    <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 4 : Demande d'homologation à la DREETS</h3>
+                        <p class="text-gray-600">Au plus tôt le lendemain de la fin du délai de rétractation, la convention est envoyée à l'administration (DREETS) pour validation via le service TéléRC.</p>
+                    </div>
+                    <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 5 : Délai d'instruction (15 jours ouvrables)</h3>
+                        <p class="text-gray-600">La DREETS a 15 jours ouvrables pour vérifier la validité de la convention. L'absence de réponse vaut acceptation (homologation tacite).</p>
+                    </div>
+                     <div class="relative timeline-step pl-8">
+                        <div class="absolute -left-2 top-1 w-4 h-4 rounded-full timeline-dot"></div>
+                        <h3 class="font-bold text-lg text-gray-800">Étape 6 : Fin du contrat de travail</h3>
+                        <p class="text-gray-600">La rupture du contrat peut intervenir au plus tôt le lendemain de la fin du délai d'instruction. L'employeur remet alors les documents de fin de contrat.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulateurs" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Simulateurs Pratiques</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">🗓️ Calculateur de Délais</h3>
+                    <p class="text-gray-600 mb-4">Entrez la date de signature de la convention pour estimer les dates clés de votre procédure.</p>
+                    <div>
+                        <label for="signatureDate" class="block text-sm font-medium text-gray-700">Date de signature de la convention</label>
+                        <input type="date" id="signatureDate" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                    </div>
+                    <ul class="mt-6 space-y-3">
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-medium text-gray-700">Fin du délai de rétractation :</span>
+                            <span id="retractationEnd" class="font-bold text-indigo-600">-</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-medium text-gray-700">Envoi possible à la DREETS le :</span>
+                            <span id="envoiDreets" class="font-bold text-indigo-600">-</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                            <span class="font-medium text-gray-700">Fin du délai d'instruction vers le :</span>
+                            <span id="instructionEnd" class="font-bold text-indigo-600">-</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-green-100 rounded-md">
+                            <span class="font-medium text-green-800">Rupture possible à partir du :</span>
+                            <span id="rupturePossible" class="font-bold text-green-800">-</span>
+                        </li>
+                    </ul>
+                     <p class="text-xs text-gray-500 mt-4">Note : Le calcul des jours ouvrables n'inclut pas les jours fériés et peut donc varier légèrement.</p>
+                </div>
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">💰 Calculateur d'Indemnité Minimale</h3>
+                    <p class="text-gray-600 mb-4">Estimez le montant minimum légal de votre indemnité de rupture conventionnelle.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                           <label for="ancienneteAn" class="block text-sm font-medium text-gray-700">Ancienneté (ans)</label>
+                           <input type="number" id="ancienneteAn" value="5" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                        </div>
+                        <div>
+                           <label for="ancienneteMois" class="block text-sm font-medium text-gray-700">Ancienneté (mois)</label>
+                           <input type="number" id="ancienneteMois" value="7" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                        </div>
+                    </div>
+                     <div class="mt-4">
+                           <label for="salaireRef" class="block text-sm font-medium text-gray-700">Salaire de référence (€)</label>
+                           <input type="number" id="salaireRef" value="2125" class="mt-1 block w-full rounded-md shadow-sm p-2">
+                           <p class="text-xs text-gray-500 mt-1">Moyenne la plus favorable des 3 ou 12 derniers mois.</p>
+                    </div>
+                    <div class="mt-6 text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="text-sm font-medium text-green-800">Montant minimum de l'indemnité :</p>
+                        <p id="indemniteResult" class="text-3xl font-bold text-green-700 mt-1">2 966,15 €</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conditions" class="mb-16 scroll-mt-20">
+            <div class="card p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Conditions & Cas Particuliers</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <h4 class="font-bold text-blue-800 flex items-center"><span class="text-xl mr-2">✅</span> Qui est éligible ?</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-700 mt-2 pl-2">
+                            <li>Salariés en CDI uniquement.</li>
+                            <li>Hors période d'essai.</li>
+                            <li>Le commun accord est indispensable.</li>
+                        </ul>
+                    </div>
+                     <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <h4 class="font-bold text-red-800 flex items-center"><span class="text-xl mr-2">❌</span> Quand est-ce interdit ?</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-700 mt-2 pl-2">
+                            <li>Si le consentement est vicié (fraude, pression).</li>
+                            <li>Dans le cadre d'un PSE ou d'un accord GPEC.</li>
+                            <li>Pour contourner les règles du licenciement économique.</li>
+                        </ul>
+                    </div>
+                     <div class="p-4 bg-yellow-50 border border-yellow-300 rounded-lg">
+                        <h4 class="font-bold text-yellow-800 flex items-center"><span class="text-xl mr-2">🛡️</span> Salariés protégés ?</h4>
+                        <p class="text-sm text-gray-700 mt-2 pl-2">La procédure est similaire mais la validation ne vient pas de la DREETS. Elle est soumise à l'<strong class="font-semibold">autorisation de l'inspecteur du travail</strong>, après consultation du CSE si existant.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="regime" class="scroll-mt-20">
+            <div class="card p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Régime Fiscal et Social de l'Indemnité</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">Cas 1 : Salarié <span class="text-red-600">non</span> en droit de prendre sa retraite</h3>
+                        <div class="space-y-3 text-sm">
+                            <p><strong>Impôt sur le revenu :</strong> Exonérée dans la limite la plus élevée entre 1) l'indemnité légale/conventionnelle, 2) 50% de l'indemnité versée ou 2x le salaire brut N-1 (plafond global de 6 PASS).</p>
+                            <p><strong>Cotisations sociales :</strong> Exonérée jusqu'à 2 PASS si exonérée d'impôt.</p>
+                             <p><strong>CSG/CRDS :</strong> Exonérée dans la limite de l'indemnité légale/conventionnelle (sans dépasser la part exonérée de cotisations sociales).</p>
+                             <p><strong>Contribution patronale (30%) :</strong> Due sur la part exonérée de cotisations sociales.</p>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">Cas 2 : Salarié en droit de prendre sa retraite</h3>
+                         <div class="space-y-3 text-sm">
+                             <p><strong>Impôt sur le revenu :</strong> Soumise dès le 1er euro (régime d'un départ à la retraite).</p>
+                             <p><strong>Cotisations sociales :</strong> Soumise dès le 1er euro.</p>
+                             <p><strong>CSG/CRDS :</strong> Soumise dès le 1er euro après abattement.</p>
+                             <p><strong>Contribution patronale (30%) :</strong> Due sur la part exonérée de cotisations sociales (si une exonération s'applique exceptionnellement).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const signatureDateInput = document.getElementById('signatureDate');
+        const ancienneteAnInput = document.getElementById('ancienneteAn');
+        const ancienneteMoisInput = document.getElementById('ancienneteMois');
+        const salaireRefInput = document.getElementById('salaireRef');
+
+        function formatDate(date) {
+            if (!date) return '-';
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+        
+        function calculateTimeline() {
+            const startDate = signatureDateInput.valueAsDate;
+            if (!startDate) {
+                document.getElementById('retractationEnd').textContent = '-';
+                document.getElementById('envoiDreets').textContent = '-';
+                document.getElementById('instructionEnd').textContent = '-';
+                document.getElementById('rupturePossible').textContent = '-';
+                return;
+            };
+
+            startDate.setUTCHours(0,0,0,0);
+
+            let retractationEnd = new Date(startDate.getTime());
+            retractationEnd.setDate(retractationEnd.getDate() + 16);
+            
+            let current = new Date(retractationEnd);
+            if (current.getDay() === 6) { // Samedi
+                current.setDate(current.getDate() + 2);
+            } else if (current.getDay() === 0) { // Dimanche
+                current.setDate(current.getDate() + 1);
+            }
+            retractationEnd = current;
+            
+            let envoiDreets = new Date(retractationEnd.getTime());
+            
+            let instructionEnd = new Date(envoiDreets.getTime());
+            let joursOuvrables = 0;
+            while (joursOuvrables < 15) {
+                instructionEnd.setDate(instructionEnd.getDate() + 1);
+                const day = instructionEnd.getDay();
+                if (day !== 0 && day !== 6) { // Exclut dimanche et samedi
+                    joursOuvrables++;
+                }
+            }
+            
+            let rupturePossible = new Date(instructionEnd.getTime());
+            rupturePossible.setDate(rupturePossible.getDate() + 1);
+
+            document.getElementById('retractationEnd').textContent = formatDate(retractationEnd);
+            document.getElementById('envoiDreets').textContent = formatDate(envoiDreets);
+            document.getElementById('instructionEnd').textContent = formatDate(instructionEnd);
+            document.getElementById('rupturePossible').textContent = formatDate(rupturePossible);
+        }
+
+        function calculateIndemnity() {
+            const ans = parseFloat(ancienneteAnInput.value) || 0;
+            const mois = parseFloat(ancienneteMoisInput.value) || 0;
+            const salaire = parseFloat(salaireRefInput.value) || 0;
+            
+            if (salaire === 0) {
+                document.getElementById('indemniteResult').textContent = '0,00 €';
+                return;
+            }
+
+            const totalAnciennete = ans + (mois / 12);
+            let indemnite = 0;
+            
+            if (totalAnciennete > 0) {
+                if (totalAnciennete <= 10) {
+                    indemnite = (salaire / 4) * totalAnciennete;
+                } else {
+                    const part1 = (salaire / 4) * 10;
+                    const part2 = (salaire / 3) * (totalAnciennete - 10);
+                    indemnite = part1 + part2;
+                }
+            }
+
+            document.getElementById('indemniteResult').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(indemnite);
+        }
+
+        signatureDateInput.addEventListener('change', calculateTimeline);
+        ancienneteAnInput.addEventListener('input', calculateIndemnity);
+        ancienneteMoisInput.addEventListener('input', calculateIndemnity);
+        salaireRefInput.addEventListener('input', calculateIndemnity);
+
+        const today = new Date();
+        const todayString = today.toISOString().split('T')[0];
+        signatureDateInput.value = todayString;
+        
+        calculateTimeline();
+        calculateIndemnity();
+        
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.4 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                    });
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => { observer.observe(section); });
+    });
+    </script>
+</body>
+</html>
