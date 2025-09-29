@@ -225,6 +225,14 @@
                     <p class="text-lg font-medium text-blue-800">Montant minimum de l'indemnité :</p>
                     <p id="indemniteResult" class="text-4xl font-bold text-blue-700 mt-1">-</p>
                 </div>
+                <div id="indemnite-details" class="mt-4 p-4 bg-gray-50 rounded-lg text-sm space-y-2 hidden">
+                     <h4 class="font-bold text-gray-800">Détail du calcul de l'indemnité</h4>
+                     <p id="calc-detail-salaire-ref"></p>
+                     <p id="calc-detail-anciennete-decimal"></p>
+                     <p id="calc-detail-part1"></p>
+                     <p id="calc-detail-part2"></p>
+                     <p id="calc-detail-total" class="font-bold pt-2 border-t mt-2"></p>
+                </div>
             </div>
         </section>
 
@@ -413,9 +421,10 @@
         
         const primesInput = document.getElementById('primes');
         const salairesContainer = document.getElementById('salaires-container');
+        const indemniteDetailsContainer = document.getElementById('indemnite-details');
 
         let ruptureLegaleDate = null;
-        let ancienneteGlobale = { years: 0, months: 0 };
+        let ancienneteGlobale = { years: 0, months: 0, days: 0, decimal: 0 };
         
         function format(date) {
             if (!date) return null;
@@ -479,28 +488,35 @@
 
             if(!dateEntree || !ruptureLegaleDate){
                 document.getElementById('ancienneteResult').textContent = '-';
+                ancienneteGlobale = { years: 0, months: 0, days: 0, decimal: 0 };
+                calculateDetailedIndemnity();
                 return;
             }
 
-            let dateEffectiveRupture = ruptureLegaleDate;
-            if(dateDepartSouhaitee && dateDepartSouhaitee > ruptureLegaleDate){
+            let dateEffectiveRupture = new Date(ruptureLegaleDate.getTime());
+             if (dateDepartSouhaitee && dateDepartSouhaitee > ruptureLegaleDate) {
                 dateEffectiveRupture = dateDepartSouhaitee;
             }
             
-            let years = dateEffectiveRupture.getFullYear() - dateEntree.getFullYear();
-            let months = dateEffectiveRupture.getMonth() - dateEntree.getMonth();
-            let days = dateEffectiveRupture.getDate() - dateEntree.getDate();
+            let dateEntreeUTC = new Date(Date.UTC(dateEntree.getFullYear(), dateEntree.getMonth(), dateEntree.getDate()));
+            let dateEffectiveRuptureUTC = new Date(Date.UTC(dateEffectiveRupture.getFullYear(), dateEffectiveRupture.getMonth(), dateEffectiveRupture.getDate()));
+            
+            let years = dateEffectiveRuptureUTC.getUTCFullYear() - dateEntreeUTC.getUTCFullYear();
+            let months = dateEffectiveRuptureUTC.getUTCMonth() - dateEntreeUTC.getUTCMonth();
+            let days = dateEffectiveRuptureUTC.getUTCDate() - dateEntreeUTC.getUTCDate();
 
             if (days < 0) {
                 months--;
+                const prevMonth = new Date(dateEffectiveRuptureUTC.getUTCFullYear(), dateEffectiveRuptureUTC.getUTCMonth(), 0);
+                days += prevMonth.getUTCDate();
             }
             if (months < 0) {
                 years--;
                 months += 12;
             }
             
-            ancienneteGlobale = { years, months };
-            document.getElementById('ancienneteResult').textContent = `${years} an(s) et ${months} mois`;
+            ancienneteGlobale = { years, months, days, decimal: years + (months / 12) + (days / 365.25 / 12) };
+            document.getElementById('ancienneteResult').textContent = `${years} an(s), ${months} mois et ${days} jour(s)`;
             calculateDetailedIndemnity();
         }
 
@@ -559,21 +575,35 @@
             document.getElementById('avg3').textContent = isNaN(avg3) ? '-' : formatCurrency(avg3);
             document.getElementById('salaireRefResult').textContent = isNaN(salaireRef) || salaireRef === 0 ? '-' : formatCurrency(salaireRef);
 
-            const { years, months } = ancienneteGlobale;
-            const totalAnciennete = years + (months / 12);
+            const { decimal: totalAnciennete } = ancienneteGlobale;
             
             let indemnite = 0;
+            let part1 = 0;
+            let part2 = 0;
+
             if (salaireRef > 0 && totalAnciennete > 0) {
-                 if (totalAnciennete <= 10) {
-                    indemnite = (salaireRef / 4) * totalAnciennete;
-                } else {
-                    const part1 = (salaireRef / 4) * 10;
-                    const part2 = (salaireRef / 3) * (totalAnciennete - 10);
-                    indemnite = part1 + part2;
+                const anciennetePart1 = Math.min(10, totalAnciennete);
+                part1 = (salaireRef / 4) * anciennetePart1;
+
+                const anciennetePart2 = Math.max(0, totalAnciennete - 10);
+                if (anciennetePart2 > 0) {
+                   part2 = (salaireRef / 3) * anciennetePart2;
                 }
+                indemnite = part1 + part2;
             }
             
             document.getElementById('indemniteResult').textContent = formatCurrency(indemnite);
+
+            if(indemnite > 0) {
+                indemniteDetailsContainer.classList.remove('hidden');
+                document.getElementById('calc-detail-salaire-ref').textContent = `Salaire de référence : ${formatCurrency(salaireRef)}`;
+                document.getElementById('calc-detail-anciennete-decimal').textContent = `Ancienneté convertie : ${totalAnciennete.toFixed(4)} années`;
+                document.getElementById('calc-detail-part1').textContent = `Part ≤ 10 ans : (${formatCurrency(salaireRef)} / 4) * ${Math.min(10, totalAnciennete).toFixed(4)} = ${formatCurrency(part1)}`;
+                document.getElementById('calc-detail-part2').textContent = `Part > 10 ans : (${formatCurrency(salaireRef)} / 3) * ${Math.max(0, totalAnciennete - 10).toFixed(4)} = ${formatCurrency(part2)}`;
+                document.getElementById('calc-detail-total').textContent = `Total : ${formatCurrency(part1)} + ${formatCurrency(part2)} = ${formatCurrency(indemnite)}`;
+            } else {
+                indemniteDetailsContainer.classList.add('hidden');
+            }
         }
         
         function formatCurrency(value) {
